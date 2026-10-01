@@ -14,65 +14,59 @@
     <div class="container">
       <a class="brand" href="index.html"><img src="upsy_logo.jpeg" alt="UPSY" /><span>UPSY</span><small>Courses</small></a>
       <nav class="nav">
-        <a href="index.html">Courses</a>
-        <a href="providers.html">Providers</a>
-        <a href="compare.html">Compare</a>
+        <a class="topic" href="index.html#search"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="7"/><path d="m20 20-3.5-3.5"/></svg><span>Try a new topic</span><kbd>Ctrl+K</kbd></a>
+        <a href="saved.html">Saved<span class="pill" data-saved-count hidden>0</span></a>
       </nav>
     </div>
   </header>
-  <div class="sample-banner">Preview: 11 courses scraped from coursecorrect.fyi on 1 Oct 2026. The real UPSY catalogue replaces this file.</div>
 
-  <section class="detail-hero"><div class="container" id="hero"></div></section>
-  <main class="container detail">
-    <div id="main"></div>
-    <aside class="side" id="side"></aside>
+  <main class="container shell">
+    <aside class="assistant" id="assistant"></aside>
+    <section class="course-pane" id="pane"><div class="skeleton"></div></section>
   </main>
-
-  <footer class="site-footer"><div class="container"><span>UPSY Courses · a product of UPSY</span><span>Preview catalogue</span></div></footer>
+  <button type="button" class="assistant-fab" id="fab">✦ Ask UPSY</button>
+  <div class="scrim" id="scrim"></div>
 
   <script type="module">
-    import { loadData, esc, param, num, duration, renderTray, compareIds, toggleCompare, markNav } from "./app.js";
+    import { loadData, esc, param, num, duration, stars, savedIds, toggleSaved, updateSavedCount, wireSaveButtons, markNav, mountAssistant, openAssistant, closeAssistant } from "./app.js";
     const db = await loadData();
     markNav();
-    renderTray(db);
     const $ = (s) => document.querySelector(s);
     const c = db.courses.find((x) => x.id === param("id"));
     if (!c) {
-      $("#hero").innerHTML = `<h1>Course not found</h1><p class="sub"><a href="index.html">Back to all courses</a></p>`;
+      $("#pane").innerHTML = `<h1>Course not found</h1><p><a href="index.html" style="color:var(--primary)">Back to search</a></p>`;
     } else {
       document.title = `${c.title} · UPSY Courses`;
-      $("#hero").innerHTML = `
-        <div class="crumbs"><a href="index.html">Courses</a> › <a href="index.html?q=${encodeURIComponent(c.subject)}">${esc(c.subject)}</a></div>
+      const saved = savedIds().includes(c.id);
+      $("#pane").innerHTML = `
         <h1>${esc(c.title)}</h1>
-        <div class="sub">${c.institution ? `${esc(c.institution)} · ` : ""}<a href="providers.html#${esc(c.provider.toLowerCase())}">${esc(c.provider)}</a></div>
-        <div class="chiprow" style="margin-top:12px">
+        <div class="sub">${c.institution ? `<b>${esc(c.institution)}</b> · ` : ""}${esc(c.provider)}</div>
+        ${c.rating != null ? `<div class="sub"><span class="stars">${stars(c.rating)}</span> ${c.rating.toFixed(1)} <span class="muted">(${num(c.numRatings)})</span></div>` : ""}
+        <div class="chiprow">
           <span class="tag type">${esc(c.type)}</span><span class="tag">${esc(c.level)}</span>
           ${c.selfPaced ? `<span class="tag">Self-paced</span>` : ""}${c.free ? `<span class="tag free">Free</span>` : ""}${c.certificate ? `<span class="tag">Certificate</span>` : ""}
-          <span class="tag">${esc(c.language)}</span>
+          <span class="tag">${esc(duration(c))}</span><span class="tag">${esc(c.language)}</span>
         </div>
-        <div class="stats">
-          <div class="stat"><small>Rating</small><b>${c.rating != null ? `&#9733; ${c.rating.toFixed(1)}` : "-"} <span style="font-weight:500;color:var(--muted);font-size:13px">${c.numRatings != null ? `(${num(c.numRatings)})` : ""}</span></b></div>
-          <div class="stat"><small>Duration</small><b>${esc(duration(c))}</b></div>
-          <div class="stat"><small>Level</small><b>${esc(c.level)}</b></div>
-          <div class="stat"><small>Price</small><b>${c.free ? "Free" : "Paid"}</b></div>
-          <div class="stat"><small>Certificate</small><b>${c.certificate ? "Yes" : "No"}</b></div>
-        </div>`;
-
-      $("#main").innerHTML = `
-        <section class="panel">
+        <div class="enroll">
+          <a class="btn primary" href="${esc(c.url)}" target="_blank" rel="noopener">Enroll on ${esc(c.provider)} ↗</a>
+          <button type="button" class="save${saved ? " on" : ""}" data-save="${esc(c.id)}" aria-label="Save course"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 4h12v17l-6-4-6 4z"/></svg></button>
+        </div>
+        <p class="fine">You'll be taken to ${esc(c.provider)}'s website.</p>
+        <section class="section">
           <h2>What you'll learn</h2>
           <p>${esc(c.summary)}</p>
           <p class="muted" style="font-size:12px">Summary as published by the source catalogue.</p>
         </section>
-        <section class="panel">
+        <section class="section">
           <h2>Skills you'll gain</h2>
-          <div class="tags">${c.skills.map((s) => `<span class="skill">${esc(s)}</span>`).join("")}</div>
+          <div class="skills">${c.skills.map((s) => `<span class="skill">${esc(s)}</span>`).join("")}</div>
         </section>
-        ${c.careers?.length ? `<section class="panel">
-          <h2>Where this takes you</h2>
-          <dl class="kv">${c.careers.map((k) => `<dt>${esc(k.title)}</dt><dd>${esc(k.salary)} <span class="muted">(US, O*NET / BLS)</span></dd>`).join("")}</dl>
+        ${c.careers?.length ? `<section class="section">
+          <h2>Where this takes you <span class="tag">O*NET / BLS</span></h2>
+          ${c.careers.map((k) => `<div class="career"><b>${esc(k.title)}</b><span>${esc(k.salary)}</span></div>`).join("")}
+          <p class="muted" style="font-size:12px">US salary ranges from the source catalogue. For information only.</p>
         </section>` : ""}
-        <section class="panel">
+        <section class="section">
           <h2>Key facts</h2>
           <dl class="kv">
             <dt>Provider</dt><dd>${esc(c.provider)}</dd>
@@ -80,32 +74,22 @@
             <dt>Resource type</dt><dd>${esc(c.type)}</dd>
             <dt>Level</dt><dd>${esc(c.level)}</dd>
             <dt>Pace</dt><dd>${c.selfPaced ? "Self-paced" : "Scheduled"}</dd>
+            <dt>Duration</dt><dd>${esc(duration(c))}</dd>
             <dt>Language</dt><dd>${esc(c.language)}</dd>
-            <dt>Subject</dt><dd>${esc(c.subject)}</dd>
+            <dt>Subject</dt><dd><a href="search.html?q=${encodeURIComponent(c.subject)}" style="color:var(--primary)">${esc(c.subject)}</a></dd>
           </dl>
         </section>`;
+      wireSaveButtons($("#pane"));
 
-      const inCompare = compareIds().includes(c.id);
-      const similar = db.courses.filter((x) => x.id !== c.id && (x.subject === c.subject || x.skills.some((s) => c.skills.includes(s)))).sort((a, b) => (b.rating || 0) - (a.rating || 0)).slice(0, 5);
-      $("#side").innerHTML = `
-        <div class="panel">
-          <a class="btn primary" href="${esc(c.url)}" target="_blank" rel="noopener">Enroll on ${esc(c.provider)} ↗</a>
-          <button type="button" class="btn ${inCompare ? "ghost on" : "ghost"}" id="cmp">${inCompare ? "Added to compare" : "+ Add to compare"}</button>
-          <a class="btn ghost" href="index.html?provider=${encodeURIComponent(c.provider)}">More from ${esc(c.provider)}</a>
-          <p class="muted" style="font-size:12px;margin:4px 0 0">You will be taken to the provider's site.</p>
-        </div>
-        <div class="panel">
-          <h2>Similar courses</h2>
-          <div class="mini">${similar.map((s) => `<a href="course.html?id=${encodeURIComponent(s.id)}">${esc(s.title)}<small>${esc(s.provider)} · ${esc(duration(s))} · ${s.free ? "Free" : "Paid"}</small></a>`).join("")}</div>
-        </div>`;
-      $("#cmp").addEventListener("click", () => {
-        const r = toggleCompare(c.id);
-        if (r.full) { $("#cmp").textContent = "Compare list is full (3)"; return; }
-        const on = r.ids.includes(c.id);
-        $("#cmp").className = `btn ${on ? "ghost on" : "ghost"}`;
-        $("#cmp").textContent = on ? "Added to compare" : "+ Add to compare";
-        renderTray(db);
+      mountAssistant($("#assistant"), {
+        db,
+        opening: "Curious if this is the right fit for you? I can help break it down. Just ask.",
+        chips: ["Is this right for someone with my background?", "How long will this realistically take?", "What could I do after completing this?", "Help me plan my learning"],
+        context: () => ({ courseId: c.id }),
+        onResults: null,
       });
+      $("#fab").addEventListener("click", () => openAssistant($("#assistant")));
+      $("#scrim").addEventListener("click", () => closeAssistant($("#assistant")));
     }
   </script>
 </body>
