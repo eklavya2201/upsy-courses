@@ -1,0 +1,178 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Results · UPSY Courses</title>
+  <link rel="icon" href="upsy_logo.jpeg" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+  <header class="site-header">
+    <div class="container">
+      <a class="brand" href="index.html"><img src="upsy_logo.jpeg" alt="UPSY" /><span>UPSY</span><small>Courses</small></a>
+      <nav class="nav">
+        <a class="topic" href="index.html#search"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="7"/><path d="m20 20-3.5-3.5"/></svg><span>Try a new topic</span><kbd>Ctrl+K</kbd></a>
+        <a href="saved.html">Saved<span class="pill" data-saved-count hidden>0</span></a>
+      </nav>
+    </div>
+  </header>
+
+  <main class="container shell">
+    <aside class="assistant" id="assistant"></aside>
+    <section class="results">
+      <div class="results-head">
+        <h1 id="title">Results</h1>
+        <div class="tools">
+          <label class="sort">Sort
+            <select id="sort">
+              <option value="relevance">Relevance</option>
+              <option value="rating">Rating</option>
+              <option value="reviews">Most reviewed</option>
+              <option value="duration-asc">Duration (short to long)</option>
+              <option value="duration-desc">Duration (long to short)</option>
+            </select>
+          </label>
+          <button type="button" class="btn ghost" id="open-filters"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M4 6h16M7 12h10M10 18h4"/></svg>Filters<span class="pill" id="filter-count" hidden>0</span></button>
+        </div>
+      </div>
+      <div class="note">Course summaries come from the source catalogue.</div>
+      <div class="chips" id="chips"></div>
+      <p class="status" id="status"></p>
+      <div class="list" id="list"><div class="skeleton"></div><div class="skeleton"></div><div class="skeleton"></div></div>
+    </section>
+  </main>
+  <button type="button" class="assistant-fab" id="fab">✦ Ask UPSY</button>
+  <div class="scrim" id="scrim"></div>
+
+  <aside class="drawer" id="drawer" aria-label="Filters">
+    <div class="head"><h2>Filters</h2><button type="button" id="clear">Clear all</button></div>
+    <div class="body">
+      <fieldset id="f-level"><legend>Level</legend></fieldset>
+      <fieldset id="f-type"><legend>Resource type</legend></fieldset>
+      <fieldset id="f-provider"><legend>Provider</legend></fieldset>
+      <fieldset id="f-language"><legend>Language</legend></fieldset>
+      <fieldset><legend>Price</legend><label><input type="checkbox" id="f-free" /> Free only</label></fieldset>
+      <fieldset><legend>Certificate</legend><label><input type="checkbox" id="f-cert" /> Offers a certificate</label></fieldset>
+      <fieldset><legend>Duration up to</legend><select id="f-hours"><option value="">Any</option><option value="1">1 hour</option><option value="5">5 hours</option><option value="15">15 hours</option><option value="40">40 hours</option><option value="200">About 20 weeks</option></select></fieldset>
+    </div>
+    <div class="actions"><button type="button" class="btn ghost" id="close-filters">Close</button><button type="button" class="btn primary" id="apply">Show results</button></div>
+  </aside>
+
+  <script type="module">
+    import { loadData, esc, courseCard, wireSaveButtons, markNav, localSearch, askApi, mountAssistant, openAssistant, closeAssistant } from "./app.js";
+    const db = await loadData();
+    markNav();
+    const $ = (s) => document.querySelector(s);
+    const query = (new URLSearchParams(location.search).get("q") || "").trim();
+    document.title = query ? `Results for "${query}" · UPSY Courses` : "Results · UPSY Courses";
+    $("#title").innerHTML = query ? `Results for <b>${esc(query)}</b>` : "All courses";
+
+    const state = { level: new Set(), type: new Set(), provider: new Set(), language: new Set(), free: false, cert: false, maxHours: "", sort: "relevance" };
+    let ranked = null;   // [{id, reason}] from the model (or the assistant); null = local
+    let seq = 0;
+
+    // Filters are built from the data, so a new catalogue never needs a code change.
+    const counts = (key) => { const m = new Map(); db.courses.forEach((c) => { const k = key(c); if (k) m.set(k, (m.get(k) || 0) + 1); }); return [...m.entries()].sort((a, b) => b[1] - a[1]); };
+    const checkboxes = (fs, entries, setName) => {
+      fs.insertAdjacentHTML("beforeend", entries.map(([k, n]) => `<label><input type="checkbox" value="${esc(k)}" /> ${esc(k)} <span class="count">${n}</span></label>`).join(""));
+      fs.addEventListener("change", (e) => { if (e.target.checked) state[setName].add(e.target.value); else state[setName].delete(e.target.value); render(); });
+    };
+    checkboxes($("#f-level"), counts((c) => c.level), "level");
+    checkboxes($("#f-type"), counts((c) => c.type), "type");
+    checkboxes($("#f-provider"), counts((c) => c.provider), "provider");
+    checkboxes($("#f-language"), counts((c) => c.language), "language");
+    $("#f-free").addEventListener("change", (e) => { state.free = e.target.checked; render(); });
+    $("#f-cert").addEventListener("change", (e) => { state.cert = e.target.checked; render(); });
+    $("#f-hours").addEventListener("change", (e) => { state.maxHours = e.target.value; render(); });
+    $("#sort").addEventListener("change", (e) => { state.sort = e.target.value; render(); });
+    const openDrawer = () => { $("#drawer").classList.add("open"); $("#scrim").classList.add("on"); };
+    const closeDrawer = () => { $("#drawer").classList.remove("open"); if (!$("#assistant").classList.contains("open")) $("#scrim").classList.remove("on"); };
+    $("#open-filters").addEventListener("click", openDrawer);
+    $("#close-filters").addEventListener("click", closeDrawer);
+    $("#apply").addEventListener("click", closeDrawer);
+    $("#scrim").addEventListener("click", () => { closeDrawer(); closeAssistant($("#assistant")); });
+    $("#clear").addEventListener("click", () => {
+      ["level", "type", "provider", "language"].forEach((k) => state[k].clear()); state.free = state.cert = false; state.maxHours = "";
+      $("#drawer").querySelectorAll("input[type=checkbox]").forEach((c) => (c.checked = false)); $("#f-hours").value = ""; render();
+    });
+    $("#fab").addEventListener("click", () => openAssistant($("#assistant")));
+
+    function passes(c) {
+      if (state.level.size && !state.level.has(c.level)) return false;
+      if (state.type.size && !state.type.has(c.type)) return false;
+      if (state.provider.size && !state.provider.has(c.provider)) return false;
+      if (state.language.size && !state.language.has(c.language)) return false;
+      if (state.free && !c.free) return false;
+      if (state.cert && !c.certificate) return false;
+      if (state.maxHours && c.durationHours != null && c.durationHours > Number(state.maxHours)) return false;
+      return true;
+    }
+    const sorters = {
+      rating: (a, b) => (b.rating || 0) - (a.rating || 0),
+      reviews: (a, b) => (b.numRatings || 0) - (a.numRatings || 0),
+      "duration-asc": (a, b) => (a.durationHours ?? 1e9) - (b.durationHours ?? 1e9),
+      "duration-desc": (a, b) => (b.durationHours ?? -1) - (a.durationHours ?? -1),
+    };
+
+    function render() {
+      let list, reasons = {}, hits = new Set();
+      if (ranked) {
+        reasons = Object.fromEntries(ranked.map((r) => [r.id, r.reason]));
+        const picked = ranked.map((r) => db.courses.find((c) => c.id === r.id)).filter(Boolean);
+        hits = new Set(picked.map((c) => c.id));
+        const rest = (query ? localSearch(db.courses, query).results : db.courses).filter((c) => !hits.has(c.id));
+        list = [...picked, ...rest];
+      } else {
+        list = query ? localSearch(db.courses, query).results : [...db.courses].sort((a, b) => (b.rating || 0) - (a.rating || 0));
+      }
+      list = list.filter(passes);
+      if (state.sort !== "relevance") list = [...list].sort(sorters[state.sort]);
+      const active = [...["level", "type", "provider", "language"].flatMap((k) => [...state[k]].map((v) => [k, v])), ...(state.free ? [["free", "Free only"]] : []), ...(state.cert ? [["cert", "Certificate"]] : []), ...(state.maxHours ? [["hours", `Up to ${state.maxHours} h`]] : [])];
+      $("#chips").innerHTML = active.map(([k, v]) => `<button type="button" data-k="${k}" data-v="${esc(v)}">${esc(v)} ✕</button>`).join("");
+      const fc = $("#filter-count"); fc.textContent = active.length; fc.hidden = !active.length;
+      $("#list").innerHTML = list.length ? list.map((c, i) => courseCard(c, i, { reason: reasons[c.id], hit: hits.has(c.id) })).join("") : `<div class="empty">Nothing in the catalogue fits that. Try fewer filters or ask UPSY on the left.</div>`;
+      wireSaveButtons($("#list"));
+    }
+    $("#chips").addEventListener("click", (e) => {
+      const b = e.target.closest("button"); if (!b) return; const { k, v } = b.dataset;
+      if (k === "free") { state.free = false; $("#f-free").checked = false; }
+      else if (k === "cert") { state.cert = false; $("#f-cert").checked = false; }
+      else if (k === "hours") { state.maxHours = ""; $("#f-hours").value = ""; }
+      else { state[k].delete(v); document.querySelectorAll(`#f-${k} input`).forEach((c) => { if (c.value === v) c.checked = false; }); }
+      render();
+    });
+
+    // ── The assistant on the left ──────────────────────────────────────────
+    const assistant = mountAssistant($("#assistant"), {
+      db,
+      opening: query ? `You've got results for "${query}". Want me to help you pick the one that fits you best?` : "Looking for courses? I can help you find the right fit.",
+      chips: ["Help me choose", "I'm a complete beginner, where do I start?", "What jobs do these skills lead to?", "Help me plan my learning"],
+      context: () => ({ query, resultIds: [...document.querySelectorAll("#list .card")].slice(0, 8).map((el) => el.dataset.id) }),
+      onResults: (results) => { ranked = results; render(); $("#status").textContent = "Ranked by UPSY for your question. Reasons are under each course."; },
+    });
+    if (new URLSearchParams(location.search).get("chat") === "1" && matchMedia("(max-width: 960px)").matches) openAssistant($("#assistant"));
+
+    // ── First ranking for the query: local now, model when it answers ──────
+    render();
+    async function rankWithModel() {
+      const local = localSearch(db.courses, query);
+      $("#status").textContent = local.relaxed ? "No exact match, closest courses shown. Asking UPSY for a ranking…" : "Asking UPSY for a ranking…";
+      const my = ++seq;
+      const out = await askApi(query);
+      if (my !== seq) return;
+      if (out && out.results?.length) {
+        ranked = out.results; render();
+        $("#status").textContent = out.answer || "Ranked by UPSY. Reasons are under each course.";
+      } else if (out && out.results) {
+        $("#status").textContent = out.answer || "UPSY found nothing in the catalogue that fits exactly; closest matches shown.";
+      } else {
+        $("#status").textContent = local.relaxed ? "No exact match, closest courses shown." : "";
+      }
+    }
+    if (query) rankWithModel();
+  </script>
+</body>
+</html>
