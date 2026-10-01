@@ -4,7 +4,7 @@
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>UPSY Courses: find the right course, not just any course</title>
-  <meta name="description" content="Search and compare courses and colleges across India. Fees, duration, eligibility, entrance exams and placements in one place." />
+  <meta name="description" content="Ask for what you want to learn in plain English. UPSY Courses searches and compares online courses across Coursera, edX, Udemy, DataCamp and Pluralsight." />
   <link rel="icon" href="upsy_logo.jpeg" />
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
@@ -16,21 +16,21 @@
       <a class="brand" href="index.html"><img src="upsy_logo.jpeg" alt="UPSY" /><span>UPSY</span><small>Courses</small></a>
       <nav class="nav">
         <a href="index.html">Courses</a>
-        <a href="colleges.html">Colleges</a>
+        <a href="providers.html">Providers</a>
         <a href="compare.html">Compare<span class="pill" id="nav-compare-count" hidden>0</span></a>
       </nav>
     </div>
   </header>
-  <div class="sample-banner" id="sample-banner">Preview with sample data. Fees and figures are placeholders until the UPSY catalogue is loaded.</div>
+  <div class="sample-banner" id="sample-banner">Preview: 11 courses scraped from coursecorrect.fyi on 1 Oct 2026. The real UPSY catalogue replaces this file.</div>
 
   <section class="hero">
     <div class="container">
       <h1>Smartest way to choose <em>your next course</em></h1>
-      <p>Every course and college on one page. Compare fees, duration, eligibility and entrance exams side by side, then decide with the full picture.</p>
-      <form class="search" id="search-form" role="search">
-        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="7"/><path d="m20 20-3.5-3.5"/></svg>
-        <input id="q" type="search" placeholder="Search a course, college, city or exam" autocomplete="off" />
-        <button type="submit">Search</button>
+      <p>Say what you want to learn, how much time you have and what you can spend. UPSY reads the request and ranks every course in the catalogue against it.</p>
+      <form class="search ai" id="search-form" role="search">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3l1.8 4.6L18 9.4l-4.2 1.8L12 16l-1.8-4.8L6 9.4l4.2-1.8z"/><path d="M19 15l.9 2.1L22 18l-2.1.9L19 21l-.9-2.1L16 18l2.1-.9z"/></svg>
+        <input id="q" type="search" placeholder="e.g. free beginner course to get into data analytics, under 15 hours, with a certificate" autocomplete="off" />
+        <button type="submit" id="ask-btn">Ask UPSY</button>
       </form>
       <div class="quick" id="quick"></div>
       <div class="logos" id="logos"></div>
@@ -40,26 +40,31 @@
   <main class="container browse">
     <aside class="filters" id="filters">
       <button type="button" class="filters-toggle" id="filters-toggle">Filters</button>
-      <h3>Filters <button type="button" id="reset">Reset</button></h3>
+      <h3>Filters <button type="button" id="reset">Clear all</button></h3>
       <fieldset id="f-level"><legend>Level</legend></fieldset>
-      <fieldset id="f-stream"><legend>Stream</legend></fieldset>
-      <fieldset id="f-type"><legend>College type</legend></fieldset>
-      <fieldset><legend>State</legend><select id="f-state"><option value="">All states</option></select></fieldset>
-      <fieldset><legend>Total fee up to</legend><input type="range" id="f-fee" min="0" max="100" step="1" value="100" /><div class="range-out"><span>Any</span><span id="fee-out"></span></div></fieldset>
-      <fieldset><legend>Duration</legend><select id="f-duration"><option value="">Any</option><option value="1">Up to 1 year</option><option value="2">Up to 2 years</option><option value="3">Up to 3 years</option><option value="4">Up to 4 years</option><option value="6">Up to 6 years</option></select></fieldset>
+      <fieldset id="f-type"><legend>Resource type</legend></fieldset>
+      <fieldset id="f-provider"><legend>Provider</legend></fieldset>
+      <fieldset id="f-language"><legend>Language</legend></fieldset>
+      <fieldset><legend>Price</legend><label><input type="checkbox" id="f-free" /> Free only</label></fieldset>
+      <fieldset><legend>Certificate</legend><label><input type="checkbox" id="f-cert" /> Offers a certificate</label></fieldset>
+      <fieldset><legend>Duration up to</legend><select id="f-hours"><option value="">Any</option><option value="1">1 hour</option><option value="5">5 hours</option><option value="15">15 hours</option><option value="40">40 hours</option><option value="200">About 20 weeks</option></select></fieldset>
     </aside>
 
     <section>
+      <div class="ai-panel hidden" id="ai-panel">
+        <div class="ai-head"><span class="ai-badge">UPSY understood</span><span class="ai-status" id="ai-status"></span></div>
+        <div class="chips" id="understood"></div>
+        <p class="ai-answer" id="ai-answer"></p>
+      </div>
       <div class="results-head">
         <h2 id="count">Courses</h2>
         <label class="sort">Sort by
           <select id="sort">
             <option value="relevance">Relevance</option>
-            <option value="fee-asc">Fee: low to high</option>
-            <option value="fee-desc">Fee: high to low</option>
             <option value="rating">Rating</option>
-            <option value="duration">Duration: shortest</option>
-            <option value="nirf">College rank</option>
+            <option value="reviews">Most reviewed</option>
+            <option value="duration-asc">Duration (short to long)</option>
+            <option value="duration-desc">Duration (long to short)</option>
           </select>
         </label>
       </div>
@@ -71,26 +76,25 @@
   <footer class="site-footer">
     <div class="container">
       <span>UPSY Courses · a product of UPSY</span>
-      <span id="footer-note">Sample catalogue</span>
+      <span id="footer-note"></span>
     </div>
   </footer>
 
   <script type="module">
-    import { loadData, money, esc, courseCard, wireCompareButtons, renderTray, compareIds, markNav } from "./app.js";
+    import { loadData, esc, courseCard, wireCompareButtons, renderTray, compareIds, markNav, understand, localSearch, askApi } from "./app.js";
 
     const db = await loadData();
     markNav();
     renderTray(db);
-    updateNavCount();
-
     const $ = (s) => document.querySelector(s);
-    const state = { q: "", level: new Set(), stream: new Set(), type: new Set(), state: "", feeMax: Infinity, duration: "", sort: "relevance" };
-    const maxFee = Math.max(...db.courses.map((c) => c.totalFee));
+    const state = { q: "", level: new Set(), type: new Set(), provider: new Set(), language: new Set(), free: false, cert: false, maxHours: "", sort: "relevance" };
+    let ai = null; // the last API answer: { understood, results:[{id, reason}], answer }
+    let askSeq = 0;
 
-    // Filter options are built from the data, so a new sheet never needs a code change.
+    // Filter options come from the data, so a new catalogue never needs a code change.
     const counts = (key) => {
       const m = new Map();
-      db.courses.forEach((c) => { const k = key(c); m.set(k, (m.get(k) || 0) + 1); });
+      db.courses.forEach((c) => { const k = key(c); if (k) m.set(k, (m.get(k) || 0) + 1); });
       return [...m.entries()].sort((a, b) => b[1] - a[1]);
     };
     const checkboxes = (fieldset, entries, setName) => {
@@ -102,95 +106,120 @@
       });
     };
     checkboxes($("#f-level"), counts((c) => c.level), "level");
-    checkboxes($("#f-stream"), counts((c) => c.stream), "stream");
-    checkboxes($("#f-type"), counts((c) => c.college.type), "type");
-    counts((c) => c.college.state).forEach(([k, n]) => $("#f-state").insertAdjacentHTML("beforeend", `<option value="${esc(k)}">${esc(k)} (${n})</option>`));
-    $("#f-state").addEventListener("change", (e) => { state.state = e.target.value; render(); });
-    $("#f-duration").addEventListener("change", (e) => { state.duration = e.target.value; render(); });
+    checkboxes($("#f-type"), counts((c) => c.type), "type");
+    checkboxes($("#f-provider"), counts((c) => c.provider), "provider");
+    checkboxes($("#f-language"), counts((c) => c.language), "language");
+    $("#f-free").addEventListener("change", (e) => { state.free = e.target.checked; render(); });
+    $("#f-cert").addEventListener("change", (e) => { state.cert = e.target.checked; render(); });
+    $("#f-hours").addEventListener("change", (e) => { state.maxHours = e.target.value; render(); });
     $("#sort").addEventListener("change", (e) => { state.sort = e.target.value; render(); });
-    $("#f-fee").addEventListener("input", (e) => {
-      const pct = Number(e.target.value);
-      state.feeMax = pct >= 100 ? Infinity : Math.round((maxFee * pct) / 100);
-      $("#fee-out").textContent = pct >= 100 ? money(maxFee) + "+" : money(state.feeMax);
-      render();
-    });
-    $("#fee-out").textContent = money(maxFee) + "+";
-    $("#search-form").addEventListener("submit", (e) => { e.preventDefault(); state.q = $("#q").value.trim(); render(); $("#results").scrollIntoView({ behavior: "smooth", block: "start" }); });
-    $("#q").addEventListener("input", (e) => { state.q = e.target.value.trim(); render(); });
-    $("#reset").addEventListener("click", () => {
-      state.q = ""; state.level.clear(); state.stream.clear(); state.type.clear(); state.state = ""; state.feeMax = Infinity; state.duration = ""; state.sort = "relevance";
-      $("#q").value = ""; $("#f-state").value = ""; $("#f-duration").value = ""; $("#sort").value = "relevance"; $("#f-fee").value = 100; $("#fee-out").textContent = money(maxFee) + "+";
-      document.querySelectorAll("#filters input[type=checkbox]").forEach((c) => (c.checked = false));
-      render();
-    });
     $("#filters-toggle").addEventListener("click", () => $("#filters").classList.toggle("collapsed"));
     if (matchMedia("(max-width: 860px)").matches) $("#filters").classList.add("collapsed");
 
-    // Quick searches and the "college logos" row come from the data too.
-    const quick = ["B.Tech", "MBA", "Law", "Medicine", "Design", "Bengaluru", "Government"];
+    $("#search-form").addEventListener("submit", (e) => { e.preventDefault(); ask($("#q").value.trim()); });
+    $("#q").addEventListener("input", (e) => { state.q = e.target.value.trim(); ai = null; render(); });
+    $("#reset").addEventListener("click", () => {
+      state.q = ""; ai = null; ["level", "type", "provider", "language"].forEach((k) => state[k].clear());
+      state.free = state.cert = false; state.maxHours = ""; state.sort = "relevance";
+      $("#q").value = ""; $("#f-free").checked = $("#f-cert").checked = false; $("#f-hours").value = ""; $("#sort").value = "relevance";
+      document.querySelectorAll("#filters input[type=checkbox]").forEach((c) => (c.checked = false));
+      $("#ai-panel").classList.add("hidden");
+      render();
+    });
+
+    const quick = ["Free beginner Python course under 5 hours", "Get into data analytics with a certificate", "Machine learning from a top university", "Something I can finish this weekend", "Web development for a complete beginner"];
     $("#quick").innerHTML = quick.map((q) => `<button type="button">${esc(q)}</button>`).join("");
-    $("#quick").addEventListener("click", (e) => { if (e.target.tagName === "BUTTON") { $("#q").value = e.target.textContent; state.q = e.target.textContent; render(); $("#results").scrollIntoView({ behavior: "smooth" }); } });
-    $("#logos").innerHTML = db.colleges.map((c) => `<span>${esc(c.name)}</span>`).join("");
-    if (db.note) { $("#footer-note").textContent = db.note; } else { $("#sample-banner").remove(); }
-
-    // A query from colleges.html (?college=id) or ?q=
+    $("#quick").addEventListener("click", (e) => { if (e.target.tagName === "BUTTON") { $("#q").value = e.target.textContent; ask(e.target.textContent); } });
+    $("#logos").innerHTML = [...new Set(db.courses.map((c) => c.provider))].map((p) => `<span>${esc(p)}</span>`).join("");
+    if (db.note) $("#footer-note").textContent = db.note; else $("#sample-banner").remove();
     const params = new URLSearchParams(location.search);
-    if (params.get("q")) { $("#q").value = params.get("q"); state.q = params.get("q"); }
-    if (params.get("college")) { const col = db.collegeById[params.get("college")]; if (col) { $("#q").value = col.name; state.q = col.name; } }
+    if (params.get("q")) { $("#q").value = params.get("q"); ask(params.get("q")); }
+    if (params.get("provider")) { state.provider.add(params.get("provider")); document.querySelectorAll("#f-provider input").forEach((c) => { if (c.value === params.get("provider")) c.checked = true; }); }
 
-    function matches(c) {
-      if (state.level.size && !state.level.has(c.level)) return false;
-      if (state.stream.size && !state.stream.has(c.stream)) return false;
-      if (state.type.size && !state.type.has(c.college.type)) return false;
-      if (state.state && c.college.state !== state.state) return false;
-      if (c.totalFee > state.feeMax) return false;
-      if (state.duration && c.durationYears > Number(state.duration)) return false;
-      if (state.q) {
-        const hay = [c.name, c.degree, c.stream, c.specialisation, c.entrance, c.college.name, c.college.fullName, c.college.city, c.college.state, c.college.type, ...c.skills].join(" ").toLowerCase();
-        return state.q.toLowerCase().split(/\s+/).every((w) => hay.includes(w));
+    // ── The AI search ──────────────────────────────────────────────────────
+    // Two layers. The local one answers at once (parsed intent + keyword rank),
+    // the API one replaces it when it arrives with a model's ranking and a
+    // reason per course. If the API is asleep or down the local answer stands.
+    async function ask(query) {
+      state.q = query; ai = null;
+      if (!query) { $("#ai-panel").classList.add("hidden"); render(); return; }
+      const seq = ++askSeq;
+      const local = localSearch(db.courses, query);
+      showUnderstood(local.understood, local.relaxed ? "No exact match, closest courses shown. Asking the model…" : "Asking the model…", "");
+      render();
+      $("#results").scrollIntoView({ behavior: "smooth", block: "start" });
+      const t0 = Date.now();
+      const out = await askApi(query);
+      if (seq !== askSeq) return; // a newer question superseded this one
+      if (out && out.results) {
+        ai = out;
+        showUnderstood(out.understood, `Model answer in ${((Date.now() - t0) / 1000).toFixed(1)} s`, out.answer);
+      } else {
+        showUnderstood(local.understood, local.relaxed ? "Model unavailable. No exact match, closest courses shown." : "Model unavailable, showing the local match.", "");
       }
+      render();
+    }
+    function showUnderstood(u, status, answer) {
+      const chips = [];
+      if (u.topic) chips.push(["Topic", u.topic]);
+      if (u.level) chips.push(["Level", u.level]);
+      if (u.free) chips.push(["Price", "Free"]);
+      if (u.certificate) chips.push(["Certificate", "Yes"]);
+      if (u.maxHours) chips.push(["Time", `up to ${u.maxHours} h`]);
+      if (u.provider) chips.push(["Provider", u.provider]);
+      if (u.goal) chips.push(["Goal", u.goal]);
+      $("#understood").innerHTML = chips.length ? chips.map(([k, v]) => `<button type="button" disabled><b>${esc(k)}:</b> ${esc(v)}</button>`).join("") : `<span class="muted">Open question, ranking the whole catalogue.</span>`;
+      $("#ai-status").textContent = status;
+      $("#ai-answer").textContent = answer || "";
+      $("#ai-answer").classList.toggle("hidden", !answer);
+      $("#ai-panel").classList.remove("hidden");
+    }
+
+    function passesFilters(c) {
+      if (state.level.size && !state.level.has(c.level)) return false;
+      if (state.type.size && !state.type.has(c.type)) return false;
+      if (state.provider.size && !state.provider.has(c.provider)) return false;
+      if (state.language.size && !state.language.has(c.language)) return false;
+      if (state.free && !c.free) return false;
+      if (state.cert && !c.certificate) return false;
+      if (state.maxHours && c.durationHours != null && c.durationHours > Number(state.maxHours)) return false;
       return true;
     }
-    function score(c) {
-      // Relevance = query hits in the name/college first, then rating.
-      if (!state.q) return c.rating;
-      const q = state.q.toLowerCase();
-      let s = c.rating;
-      if (c.name.toLowerCase().includes(q)) s += 10;
-      if (c.college.name.toLowerCase().includes(q)) s += 8;
-      if (c.degree.toLowerCase() === q) s += 6;
-      return s;
-    }
     const sorters = {
-      relevance: (a, b) => score(b) - score(a),
-      "fee-asc": (a, b) => a.totalFee - b.totalFee,
-      "fee-desc": (a, b) => b.totalFee - a.totalFee,
-      rating: (a, b) => b.rating - a.rating,
-      duration: (a, b) => a.durationYears - b.durationYears,
-      nirf: (a, b) => (a.college.nirf || 999) - (b.college.nirf || 999),
+      rating: (a, b) => (b.rating || 0) - (a.rating || 0),
+      reviews: (a, b) => (b.numRatings || 0) - (a.numRatings || 0),
+      "duration-asc": (a, b) => (a.durationHours ?? 1e9) - (b.durationHours ?? 1e9),
+      "duration-desc": (a, b) => (b.durationHours ?? -1) - (a.durationHours ?? -1),
     };
 
     function render() {
-      const list = db.courses.filter(matches).sort(sorters[state.sort]);
-      $("#count").innerHTML = `${list.length} course${list.length === 1 ? "" : "s"} <span>across ${new Set(list.map((c) => c.collegeId)).size} colleges</span>`;
+      let list, reasons = {};
+      if (ai) {
+        reasons = Object.fromEntries(ai.results.map((r) => [r.id, r.reason]));
+        list = ai.results.map((r) => db.courses.find((c) => c.id === r.id)).filter(Boolean).filter(passesFilters);
+      } else if (state.q) {
+        list = localSearch(db.courses, state.q).results.filter(passesFilters);
+      } else {
+        list = db.courses.filter(passesFilters).sort((a, b) => (b.rating || 0) - (a.rating || 0) || (b.numRatings || 0) - (a.numRatings || 0));
+      }
+      if (state.sort !== "relevance") list = [...list].sort(sorters[state.sort]);
+      $("#count").innerHTML = `${list.length} course${list.length === 1 ? "" : "s"} <span>${ai ? "picked by the model" : state.q ? "matching your request" : "in the catalogue"}</span>`;
       const chips = [];
-      if (state.q) chips.push(["q", `“${state.q}”`]);
-      state.level.forEach((v) => chips.push(["level", v])); state.stream.forEach((v) => chips.push(["stream", v])); state.type.forEach((v) => chips.push(["type", v]));
-      if (state.state) chips.push(["state", state.state]);
-      if (state.feeMax !== Infinity) chips.push(["fee", `Up to ${money(state.feeMax)}`]);
-      if (state.duration) chips.push(["duration", `Up to ${state.duration} yrs`]);
+      ["level", "type", "provider", "language"].forEach((k) => state[k].forEach((v) => chips.push([k, v])));
+      if (state.free) chips.push(["free", "Free only"]);
+      if (state.cert) chips.push(["cert", "Certificate"]);
+      if (state.maxHours) chips.push(["hours", `Up to ${state.maxHours} h`]);
       $("#chips").innerHTML = chips.map(([k, v]) => `<button type="button" data-k="${k}" data-v="${esc(v)}">${esc(v)} ✕</button>`).join("");
-      $("#results").innerHTML = list.length ? list.map(courseCard).join("") : `<div class="empty">No course matches those filters. Try fewer filters or a broader search.</div>`;
+      $("#results").innerHTML = list.length ? list.map((c) => courseCard(c, { reason: reasons[c.id] })).join("") : `<div class="empty">Nothing in the catalogue fits that. Try fewer filters or a broader request.</div>`;
       wireCompareButtons($("#results"), db);
       updateNavCount();
     }
     $("#chips").addEventListener("click", (e) => {
       const b = e.target.closest("button"); if (!b) return;
       const { k, v } = b.dataset;
-      if (k === "q") { state.q = ""; $("#q").value = ""; }
-      else if (k === "state") { state.state = ""; $("#f-state").value = ""; }
-      else if (k === "fee") { state.feeMax = Infinity; $("#f-fee").value = 100; $("#fee-out").textContent = money(maxFee) + "+"; }
-      else if (k === "duration") { state.duration = ""; $("#f-duration").value = ""; }
+      if (k === "free") { state.free = false; $("#f-free").checked = false; }
+      else if (k === "cert") { state.cert = false; $("#f-cert").checked = false; }
+      else if (k === "hours") { state.maxHours = ""; $("#f-hours").value = ""; }
       else { state[k].delete(v); document.querySelectorAll(`#f-${k} input`).forEach((c) => { if (c.value === v) c.checked = false; }); }
       render();
     });
