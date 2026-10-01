@@ -1,0 +1,72 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Colleges · UPSY Courses</title>
+  <link rel="icon" href="upsy_logo.jpeg" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+  <header class="site-header">
+    <div class="container">
+      <a class="brand" href="index.html"><img src="upsy_logo.jpeg" alt="UPSY" /><span>UPSY</span><small>Courses</small></a>
+      <nav class="nav">
+        <a href="index.html">Courses</a>
+        <a href="colleges.html">Colleges</a>
+        <a href="compare.html">Compare</a>
+      </nav>
+    </div>
+  </header>
+  <div class="sample-banner">Preview with sample data. Fees and figures are placeholders until the UPSY catalogue is loaded.</div>
+
+  <div class="container page-title">
+    <h1>Colleges</h1>
+    <p>Every college in the catalogue, with the courses it offers.</p>
+  </div>
+  <main class="container" style="padding-bottom:90px">
+    <div class="grid" id="grid"></div>
+  </main>
+
+  <footer class="site-footer"><div class="container"><span>UPSY Courses · a product of UPSY</span><span>Sample catalogue</span></div></footer>
+
+  <script type="module">
+    import { loadData, money, esc, renderTray, markNav } from "./app.js";
+    const db = await loadData();
+    markNav();
+    renderTray(db);
+    const byCollege = {};
+    db.courses.forEach((c) => (byCollege[c.collegeId] ||= []).push(c));
+    const cols = [...db.colleges].sort((a, b) => (a.nirf || 999) - (b.nirf || 999));
+    document.getElementById("grid").innerHTML = cols.map((col) => {
+      const list = byCollege[col.id] || [];
+      const fees = list.map((c) => c.totalFee);
+      return `
+      <article class="card college-card" id="${esc(col.id)}">
+        <div class="top">
+          <div>
+            <div class="college">${esc(col.type)}</div>
+            <h3><a href="index.html?college=${encodeURIComponent(col.id)}">${esc(col.name)}</a></h3>
+          </div>
+          <div class="city">${esc(col.city)}</div>
+        </div>
+        <div class="tags">
+          ${col.nirf ? `<span class="tag level">NIRF #${col.nirf}</span>` : ""}
+          <span class="tag">NAAC ${esc(col.naac)}</span>
+          <span class="tag">Est. ${col.established}</span>
+        </div>
+        <p class="about">${esc(col.about)}</p>
+        <div class="facts">
+          <div class="fact">Courses listed<b>${list.length}</b></div>
+          <div class="fact">Fee range<b>${fees.length ? `${money(Math.min(...fees))} to ${money(Math.max(...fees))}` : "-"}</b></div>
+        </div>
+        <div class="mini">${list.slice(0, 4).map((c) => `<a href="course.html?id=${encodeURIComponent(c.id)}">${esc(c.name)}<small>${esc(c.level)} · ${money(c.totalFee)} · ${c.durationYears} yrs</small></a>`).join("")}</div>
+        <div class="actions"><a class="btn primary sm" href="index.html?college=${encodeURIComponent(col.id)}">See all ${list.length} courses</a></div>
+      </article>`;
+    }).join("");
+    if (location.hash) document.querySelector(location.hash)?.scrollIntoView({ block: "start" });
+  </script>
+</body>
+</html>
