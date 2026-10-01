@@ -25,7 +25,9 @@ Static site, no build step. Open `index.html` through any static server (`python
 
 ## Deploy
 
-- Site: Render static site `upsy-courses` from branch `courses-listing`, root `courses`.
-- API: Render web service `upsy-courses-api` from the same branch, root `courses/api`, `npm start`,
-  env `OPENROUTER_API_KEY` (and optionally `OPENROUTER_MODEL`, `CATALOG_URL`).
-  The page finds it at `https://upsy-courses-api.onrender.com`; override with `window.UPSY_API_URL`.
+Source of truth is this repo, https://github.com/eklavya2201/upsy-courses, branch `main`.
+
+- Site: Render static site `upsy-courses` from the repo root, https://upsy-courses.onrender.com.
+- API: Render web service `upsy-courses-api` from root `api`, `npm install` / `npm start`,
+  env `OPENROUTER_API_KEY` (and optionally `OPENROUTER_MODEL`, `CATALOG_URL`),
+  https://upsy-courses-api.onrender.com. The page finds it there; override with `window.UPSY_API_URL`.
