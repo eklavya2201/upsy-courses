@@ -15,12 +15,12 @@
       <a class="brand" href="index.html"><img src="upsy_logo.jpeg" alt="UPSY" /><span>UPSY</span><small>Courses</small></a>
       <nav class="nav">
         <a href="index.html">Courses</a>
-        <a href="colleges.html">Colleges</a>
+        <a href="providers.html">Providers</a>
         <a href="compare.html">Compare</a>
       </nav>
     </div>
   </header>
-  <div class="sample-banner">Preview with sample data. Fees and figures are placeholders until the UPSY catalogue is loaded.</div>
+  <div class="sample-banner">Preview: 11 courses scraped from coursecorrect.fyi on 1 Oct 2026. The real UPSY catalogue replaces this file.</div>
 
   <section class="detail-hero"><div class="container" id="hero"></div></section>
   <main class="container detail">
@@ -28,10 +28,10 @@
     <aside class="side" id="side"></aside>
   </main>
 
-  <footer class="site-footer"><div class="container"><span>UPSY Courses · a product of UPSY</span><span>Sample catalogue</span></div></footer>
+  <footer class="site-footer"><div class="container"><span>UPSY Courses · a product of UPSY</span><span>Preview catalogue</span></div></footer>
 
   <script type="module">
-    import { loadData, money, moneyFull, years, esc, param, courseCard, wireCompareButtons, renderTray, compareIds, toggleCompare, markNav } from "./app.js";
+    import { loadData, esc, param, num, duration, renderTray, compareIds, toggleCompare, markNav } from "./app.js";
     const db = await loadData();
     markNav();
     renderTray(db);
@@ -40,85 +40,69 @@
     if (!c) {
       $("#hero").innerHTML = `<h1>Course not found</h1><p class="sub"><a href="index.html">Back to all courses</a></p>`;
     } else {
-      document.title = `${c.name} at ${c.college.name} · UPSY Courses`;
-      const col = c.college;
+      document.title = `${c.title} · UPSY Courses`;
       $("#hero").innerHTML = `
-        <div class="crumbs"><a href="index.html">Courses</a> › <a href="index.html?q=${encodeURIComponent(c.stream)}">${esc(c.stream)}</a> › ${esc(c.degree)}</div>
-        <h1>${esc(c.name)}</h1>
-        <div class="sub"><a href="colleges.html#${esc(col.id)}">${esc(col.fullName)}</a> · ${esc(col.city)}, ${esc(col.state)} · ${esc(col.type)}</div>
+        <div class="crumbs"><a href="index.html">Courses</a> › <a href="index.html?q=${encodeURIComponent(c.subject)}">${esc(c.subject)}</a></div>
+        <h1>${esc(c.title)}</h1>
+        <div class="sub">${c.institution ? `${esc(c.institution)} · ` : ""}<a href="providers.html#${esc(c.provider.toLowerCase())}">${esc(c.provider)}</a></div>
+        <div class="chiprow" style="margin-top:12px">
+          <span class="tag type">${esc(c.type)}</span><span class="tag">${esc(c.level)}</span>
+          ${c.selfPaced ? `<span class="tag">Self-paced</span>` : ""}${c.free ? `<span class="tag free">Free</span>` : ""}${c.certificate ? `<span class="tag">Certificate</span>` : ""}
+          <span class="tag">${esc(c.language)}</span>
+        </div>
         <div class="stats">
-          <div class="stat"><small>Total fee</small><b>${money(c.totalFee)}</b></div>
-          <div class="stat"><small>Duration</small><b>${years(c.durationYears)}</b></div>
-          <div class="stat"><small>Level</small><b>${esc(c.level)} · ${esc(c.degree)}</b></div>
-          <div class="stat"><small>Entrance</small><b>${esc(c.entrance)}</b></div>
-          <div class="stat"><small>Rating</small><b>&#9733; ${c.rating.toFixed(1)} <span style="font-weight:500;color:var(--muted);font-size:13px">(${c.reviews.toLocaleString("en-IN")})</span></b></div>
-          ${col.nirf ? `<div class="stat"><small>NIRF rank</small><b>#${col.nirf}</b></div>` : ""}
+          <div class="stat"><small>Rating</small><b>${c.rating != null ? `&#9733; ${c.rating.toFixed(1)}` : "-"} <span style="font-weight:500;color:var(--muted);font-size:13px">${c.numRatings != null ? `(${num(c.numRatings)})` : ""}</span></b></div>
+          <div class="stat"><small>Duration</small><b>${esc(duration(c))}</b></div>
+          <div class="stat"><small>Level</small><b>${esc(c.level)}</b></div>
+          <div class="stat"><small>Price</small><b>${c.free ? "Free" : "Paid"}</b></div>
+          <div class="stat"><small>Certificate</small><b>${c.certificate ? "Yes" : "No"}</b></div>
         </div>`;
 
-      const perYear = Math.round(c.totalFee / c.durationYears);
-      const perSem = Math.round(c.totalFee / c.semesters);
       $("#main").innerHTML = `
         <section class="panel">
-          <h2>About the course</h2>
+          <h2>What you'll learn</h2>
           <p>${esc(c.summary)}</p>
-          <div class="tags">${c.skills.map((s) => `<span class="tag">${esc(s)}</span>`).join("")}</div>
+          <p class="muted" style="font-size:12px">Summary as published by the source catalogue.</p>
         </section>
+        <section class="panel">
+          <h2>Skills you'll gain</h2>
+          <div class="tags">${c.skills.map((s) => `<span class="skill">${esc(s)}</span>`).join("")}</div>
+        </section>
+        ${c.careers?.length ? `<section class="panel">
+          <h2>Where this takes you</h2>
+          <dl class="kv">${c.careers.map((k) => `<dt>${esc(k.title)}</dt><dd>${esc(k.salary)} <span class="muted">(US, O*NET / BLS)</span></dd>`).join("")}</dl>
+        </section>` : ""}
         <section class="panel">
           <h2>Key facts</h2>
           <dl class="kv">
-            <dt>Degree</dt><dd>${esc(c.degree)} (${esc(c.level)})</dd>
-            <dt>Specialisation</dt><dd>${esc(c.specialisation)}</dd>
-            <dt>Stream</dt><dd>${esc(c.stream)}</dd>
-            <dt>Mode</dt><dd>${esc(c.mode)}</dd>
-            <dt>Duration</dt><dd>${years(c.durationYears)} · ${c.semesters} ${c.semesters === 1 ? "term" : "terms"}</dd>
-            <dt>Intake</dt><dd>${esc(c.intake)}</dd>
-            <dt>Seats</dt><dd>${c.seats.toLocaleString("en-IN")}</dd>
-            <dt>Eligibility</dt><dd>${esc(c.eligibility)}</dd>
-            <dt>Entrance exam</dt><dd>${esc(c.entrance)}</dd>
-            <dt>Average package</dt><dd>${esc(c.avgPackage)}</dd>
-          </dl>
-        </section>
-        <section class="panel">
-          <h2>Fees</h2>
-          <table class="fee-table">
-            <thead><tr><th>Item</th><th>Amount</th></tr></thead>
-            <tbody>
-              <tr><td>Total programme fee</td><td>${moneyFull(c.totalFee)}</td></tr>
-              <tr><td>Per year (${c.durationYears} years)</td><td>${moneyFull(perYear)}</td></tr>
-              <tr><td>Per term (${c.semesters} terms)</td><td>${moneyFull(perSem)}</td></tr>
-            </tbody>
-          </table>
-          <p style="margin-top:10px;font-size:13px;color:var(--muted)">Tuition only, as listed. Hostel, mess and exam fees are not included.</p>
-        </section>
-        <section class="panel">
-          <h2>About ${esc(col.name)}</h2>
-          <p>${esc(col.about)}</p>
-          <dl class="kv">
-            <dt>Full name</dt><dd>${esc(col.fullName)}</dd>
-            <dt>Type</dt><dd>${esc(col.type)}</dd>
-            <dt>Established</dt><dd>${col.established}</dd>
-            <dt>NAAC grade</dt><dd>${esc(col.naac)}</dd>
-            <dt>Campus</dt><dd>${esc(col.campus)}</dd>
+            <dt>Provider</dt><dd>${esc(c.provider)}</dd>
+            ${c.institution ? `<dt>Institution</dt><dd>${esc(c.institution)}</dd>` : ""}
+            <dt>Resource type</dt><dd>${esc(c.type)}</dd>
+            <dt>Level</dt><dd>${esc(c.level)}</dd>
+            <dt>Pace</dt><dd>${c.selfPaced ? "Self-paced" : "Scheduled"}</dd>
+            <dt>Language</dt><dd>${esc(c.language)}</dd>
+            <dt>Subject</dt><dd>${esc(c.subject)}</dd>
           </dl>
         </section>`;
 
       const inCompare = compareIds().includes(c.id);
-      const similar = db.courses.filter((x) => x.id !== c.id && (x.stream === c.stream || x.collegeId === c.collegeId)).sort((a, b) => (a.collegeId === c.collegeId ? -1 : 0) + b.rating - a.rating).slice(0, 5);
+      const similar = db.courses.filter((x) => x.id !== c.id && (x.subject === c.subject || x.skills.some((s) => c.skills.includes(s)))).sort((a, b) => (b.rating || 0) - (a.rating || 0)).slice(0, 5);
       $("#side").innerHTML = `
         <div class="panel">
-          <button type="button" class="btn ${inCompare ? "ghost on" : "primary"}" id="cmp">${inCompare ? "Added to compare" : "+ Add to compare"}</button>
-          <a class="btn ghost" href="index.html?college=${encodeURIComponent(col.id)}">All courses at ${esc(col.name)}</a>
-          <a class="btn ghost" href="index.html?q=${encodeURIComponent(c.degree)}">Other ${esc(c.degree)} courses</a>
+          <a class="btn primary" href="${esc(c.url)}" target="_blank" rel="noopener">Enroll on ${esc(c.provider)} ↗</a>
+          <button type="button" class="btn ${inCompare ? "ghost on" : "ghost"}" id="cmp">${inCompare ? "Added to compare" : "+ Add to compare"}</button>
+          <a class="btn ghost" href="index.html?provider=${encodeURIComponent(c.provider)}">More from ${esc(c.provider)}</a>
+          <p class="muted" style="font-size:12px;margin:4px 0 0">You will be taken to the provider's site.</p>
         </div>
         <div class="panel">
           <h2>Similar courses</h2>
-          <div class="mini">${similar.map((s) => `<a href="course.html?id=${encodeURIComponent(s.id)}">${esc(s.name)}<small>${esc(s.college.name)} · ${money(s.totalFee)} · ${years(s.durationYears)}</small></a>`).join("")}</div>
+          <div class="mini">${similar.map((s) => `<a href="course.html?id=${encodeURIComponent(s.id)}">${esc(s.title)}<small>${esc(s.provider)} · ${esc(duration(s))} · ${s.free ? "Free" : "Paid"}</small></a>`).join("")}</div>
         </div>`;
       $("#cmp").addEventListener("click", () => {
         const r = toggleCompare(c.id);
         if (r.full) { $("#cmp").textContent = "Compare list is full (3)"; return; }
         const on = r.ids.includes(c.id);
-        $("#cmp").className = `btn ${on ? "ghost on" : "primary"}`;
+        $("#cmp").className = `btn ${on ? "ghost on" : "ghost"}`;
         $("#cmp").textContent = on ? "Added to compare" : "+ Add to compare";
         renderTray(db);
       });
