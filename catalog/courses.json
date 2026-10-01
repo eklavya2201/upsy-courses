@@ -1,41 +1,543 @@
 {
-  "_note": "SAMPLE CATALOGUE for the UI preview. Figures are illustrative placeholders, not verified facts. Replace with UPSY's course + college data.",
-  "colleges": [
-    {"id": "vit-vellore", "name": "VIT Vellore", "fullName": "Vellore Institute of Technology", "city": "Vellore", "state": "Tamil Nadu", "type": "Private (Deemed)", "established": 1984, "naac": "A++", "nirf": 10, "campus": "Vellore, Chennai, Bhopal, Amaravati", "about": "Large private deemed university known for engineering, with a 360-acre main campus and a national entrance test (VITEEE)."},
-    {"id": "sibm-pune", "name": "SIBM Pune", "fullName": "Symbiosis Institute of Business Management", "city": "Pune", "state": "Maharashtra", "type": "Private (Deemed)", "established": 1978, "naac": "A++", "nirf": 17, "campus": "Lavale, Pune", "about": "Flagship B-school of Symbiosis International University, admissions through SNAP."},
-    {"id": "christ-blr", "name": "Christ University", "fullName": "Christ (Deemed to be University)", "city": "Bengaluru", "state": "Karnataka", "type": "Private (Deemed)", "established": 1969, "naac": "A+", "nirf": 60, "campus": "Central, Bannerghatta, Kengeri, Yeshwanthpur", "about": "Multi-disciplinary deemed university in Bengaluru with strong commerce, management and humanities programmes."},
-    {"id": "manipal-mit", "name": "MIT Manipal", "fullName": "Manipal Institute of Technology", "city": "Manipal", "state": "Karnataka", "type": "Private (Deemed)", "established": 1957, "naac": "A++", "nirf": 56, "campus": "Manipal", "about": "Constituent college of Manipal Academy of Higher Education, admissions through MET."},
-    {"id": "iit-bombay", "name": "IIT Bombay", "fullName": "Indian Institute of Technology Bombay", "city": "Mumbai", "state": "Maharashtra", "type": "Government", "established": 1958, "naac": "-", "nirf": 3, "campus": "Powai, Mumbai", "about": "Institute of national importance; admissions through JEE Advanced (UG) and GATE (PG)."},
-    {"id": "nift-delhi", "name": "NIFT Delhi", "fullName": "National Institute of Fashion Technology, New Delhi", "city": "New Delhi", "state": "Delhi", "type": "Government", "established": 1986, "naac": "-", "nirf": 1, "campus": "Hauz Khas, New Delhi", "about": "Premier fashion and design institute under the Ministry of Textiles; admissions through the NIFT entrance exam."},
-    {"id": "amity-noida", "name": "Amity Noida", "fullName": "Amity University, Noida", "city": "Noida", "state": "Uttar Pradesh", "type": "Private", "established": 2005, "naac": "A+", "nirf": 32, "campus": "Sector 125, Noida", "about": "Large private university with a wide programme mix across engineering, management, law and media."},
-    {"id": "srm-ktr", "name": "SRM Kattankulathur", "fullName": "SRM Institute of Science and Technology", "city": "Chennai", "state": "Tamil Nadu", "type": "Private (Deemed)", "established": 1985, "naac": "A++", "nirf": 13, "campus": "Kattankulathur, Chennai", "about": "Private deemed university near Chennai; admissions through SRMJEEE."},
-    {"id": "nlsiu-blr", "name": "NLSIU Bengaluru", "fullName": "National Law School of India University", "city": "Bengaluru", "state": "Karnataka", "type": "Government", "established": 1987, "naac": "A", "nirf": 1, "campus": "Nagarbhavi, Bengaluru", "about": "India's first national law university; admissions through CLAT."},
-    {"id": "kmc-manipal", "name": "KMC Manipal", "fullName": "Kasturba Medical College, Manipal", "city": "Manipal", "state": "Karnataka", "type": "Private (Deemed)", "established": 1953, "naac": "A++", "nirf": 9, "campus": "Manipal", "about": "One of the oldest private medical colleges in India; admissions through NEET-UG / NEET-PG."}
-  ],
-  "courses": [
-    {"id": "vit-btech-cse", "collegeId": "vit-vellore", "name": "B.Tech Computer Science and Engineering", "degree": "B.Tech", "level": "UG", "stream": "Engineering", "specialisation": "Computer Science", "durationYears": 4, "semesters": 8, "totalFee": 792000, "mode": "Full-time", "intake": "July", "seats": 1200, "eligibility": "10+2 with PCM, 60% aggregate", "entrance": "VITEEE", "rating": 4.3, "reviews": 2140, "avgPackage": "9.5 LPA", "skills": ["Programming", "Data Structures", "Operating Systems", "Machine Learning"], "summary": "Four-year engineering degree with a project-based final year and an industry internship in the seventh semester."},
-    {"id": "vit-btech-ece", "collegeId": "vit-vellore", "name": "B.Tech Electronics and Communication Engineering", "degree": "B.Tech", "level": "UG", "stream": "Engineering", "specialisation": "Electronics", "durationYears": 4, "semesters": 8, "totalFee": 792000, "mode": "Full-time", "intake": "July", "seats": 600, "eligibility": "10+2 with PCM, 60% aggregate", "entrance": "VITEEE", "rating": 4.1, "reviews": 980, "avgPackage": "7.8 LPA", "skills": ["Circuits", "Signal Processing", "VLSI", "Embedded Systems"], "summary": "Core electronics with a VLSI and embedded-systems track in the final two years."},
-    {"id": "vit-mca", "collegeId": "vit-vellore", "name": "MCA", "degree": "MCA", "level": "PG", "stream": "Computer Applications", "specialisation": "Software Development", "durationYears": 2, "semesters": 4, "totalFee": 342000, "mode": "Full-time", "intake": "July", "seats": 240, "eligibility": "Bachelor's degree with Mathematics, 60%", "entrance": "VITMEE", "rating": 4.0, "reviews": 310, "avgPackage": "6.2 LPA", "skills": ["Java", "Web Development", "Databases", "Cloud"], "summary": "Two-year applications programme aimed at software roles."},
-    {"id": "vit-mba", "collegeId": "vit-vellore", "name": "MBA", "degree": "MBA", "level": "PG", "stream": "Management", "specialisation": "General Management", "durationYears": 2, "semesters": 4, "totalFee": 780000, "mode": "Full-time", "intake": "July", "seats": 180, "eligibility": "Bachelor's degree, 60% aggregate", "entrance": "CAT / XAT / MAT", "rating": 3.9, "reviews": 260, "avgPackage": "7.1 LPA", "skills": ["Analytics", "Marketing", "Finance", "Operations"], "summary": "Two-year MBA at VIT Business School with a business-analytics option."},
-    {"id": "sibm-mba", "collegeId": "sibm-pune", "name": "MBA", "degree": "MBA", "level": "PG", "stream": "Management", "specialisation": "General Management", "durationYears": 2, "semesters": 4, "totalFee": 2400000, "mode": "Full-time", "intake": "June", "seats": 240, "eligibility": "Bachelor's degree, 50% aggregate", "entrance": "SNAP", "rating": 4.5, "reviews": 870, "avgPackage": "28 LPA", "skills": ["Strategy", "Finance", "Marketing", "Operations"], "summary": "Residential two-year MBA with marketing, finance, operations and HR specialisations."},
-    {"id": "sibm-mba-ie", "collegeId": "sibm-pune", "name": "MBA Innovation and Entrepreneurship", "degree": "MBA", "level": "PG", "stream": "Management", "specialisation": "Entrepreneurship", "durationYears": 2, "semesters": 4, "totalFee": 2200000, "mode": "Full-time", "intake": "June", "seats": 60, "eligibility": "Bachelor's degree, 50% aggregate", "entrance": "SNAP", "rating": 4.2, "reviews": 140, "avgPackage": "18 LPA", "skills": ["Venture Building", "Product", "Finance", "Design Thinking"], "summary": "MBA track built around starting and scaling a venture, with an incubation semester."},
-    {"id": "christ-bba", "collegeId": "christ-blr", "name": "BBA", "degree": "BBA", "level": "UG", "stream": "Management", "specialisation": "Business Administration", "durationYears": 3, "semesters": 6, "totalFee": 690000, "mode": "Full-time", "intake": "June", "seats": 720, "eligibility": "10+2 any stream, 50% aggregate", "entrance": "Christ Entrance Test", "rating": 4.2, "reviews": 1320, "avgPackage": "5.5 LPA", "skills": ["Accounting", "Marketing", "Business Analytics", "Communication"], "summary": "Three-year management degree with a strong placement cell and a compulsory internship each summer."},
-    {"id": "christ-bcom-hons", "collegeId": "christ-blr", "name": "B.Com (Honours)", "degree": "B.Com", "level": "UG", "stream": "Commerce", "specialisation": "Accounting and Finance", "durationYears": 3, "semesters": 6, "totalFee": 540000, "mode": "Full-time", "intake": "June", "seats": 480, "eligibility": "10+2 with Commerce or Maths, 50%", "entrance": "Christ Entrance Test", "rating": 4.3, "reviews": 960, "avgPackage": "4.8 LPA", "skills": ["Financial Accounting", "Taxation", "Auditing", "Excel"], "summary": "Honours commerce degree aligned with CA and ACCA papers."},
-    {"id": "christ-msc-psych", "collegeId": "christ-blr", "name": "MSc Clinical Psychology", "degree": "MSc", "level": "PG", "stream": "Science", "specialisation": "Clinical Psychology", "durationYears": 2, "semesters": 4, "totalFee": 460000, "mode": "Full-time", "intake": "June", "seats": 60, "eligibility": "Bachelor's in Psychology, 55%", "entrance": "Christ Entrance Test", "rating": 4.4, "reviews": 210, "avgPackage": "4.2 LPA", "skills": ["Assessment", "Counselling", "Research Methods", "Psychopathology"], "summary": "Two-year clinical programme with supervised practicum from the second semester."},
-    {"id": "mit-btech-mech", "collegeId": "manipal-mit", "name": "B.Tech Mechanical Engineering", "degree": "B.Tech", "level": "UG", "stream": "Engineering", "specialisation": "Mechanical", "durationYears": 4, "semesters": 8, "totalFee": 1520000, "mode": "Full-time", "intake": "August", "seats": 360, "eligibility": "10+2 with PCM, 50% aggregate", "entrance": "MET", "rating": 4.1, "reviews": 640, "avgPackage": "6.9 LPA", "skills": ["CAD", "Thermodynamics", "Manufacturing", "Robotics"], "summary": "Mechanical core with minors in robotics and automotive engineering."},
-    {"id": "mit-btech-cce", "collegeId": "manipal-mit", "name": "B.Tech Computer and Communication Engineering", "degree": "B.Tech", "level": "UG", "stream": "Engineering", "specialisation": "Computer Science", "durationYears": 4, "semesters": 8, "totalFee": 1520000, "mode": "Full-time", "intake": "August", "seats": 240, "eligibility": "10+2 with PCM, 50% aggregate", "entrance": "MET", "rating": 4.2, "reviews": 510, "avgPackage": "10.2 LPA", "skills": ["Networks", "Programming", "Cloud", "Security"], "summary": "Computing degree with a networking and communications emphasis."},
-    {"id": "iitb-btech-cse", "collegeId": "iit-bombay", "name": "B.Tech Computer Science and Engineering", "degree": "B.Tech", "level": "UG", "stream": "Engineering", "specialisation": "Computer Science", "durationYears": 4, "semesters": 8, "totalFee": 900000, "mode": "Full-time", "intake": "July", "seats": 180, "eligibility": "10+2 with PCM, 75% aggregate", "entrance": "JEE Advanced", "rating": 4.9, "reviews": 1480, "avgPackage": "32 LPA", "skills": ["Algorithms", "Systems", "AI", "Theory"], "summary": "Among the most selective engineering programmes in the country."},
-    {"id": "iitb-mtech-ai", "collegeId": "iit-bombay", "name": "M.Tech Artificial Intelligence", "degree": "M.Tech", "level": "PG", "stream": "Engineering", "specialisation": "Artificial Intelligence", "durationYears": 2, "semesters": 4, "totalFee": 200000, "mode": "Full-time", "intake": "July", "seats": 40, "eligibility": "B.Tech / BE with valid GATE score", "entrance": "GATE", "rating": 4.8, "reviews": 190, "avgPackage": "26 LPA", "skills": ["Deep Learning", "NLP", "Optimisation", "Research"], "summary": "Research-oriented two-year programme with a thesis in the second year."},
-    {"id": "nift-bdes-fashion", "collegeId": "nift-delhi", "name": "B.Des Fashion Design", "degree": "B.Des", "level": "UG", "stream": "Design", "specialisation": "Fashion Design", "durationYears": 4, "semesters": 8, "totalFee": 1240000, "mode": "Full-time", "intake": "July", "seats": 60, "eligibility": "10+2 any stream", "entrance": "NIFT Entrance", "rating": 4.6, "reviews": 420, "avgPackage": "6.5 LPA", "skills": ["Pattern Making", "Draping", "Illustration", "Sustainability"], "summary": "Four-year design degree with a graduation collection and industry internship."},
-    {"id": "nift-mfm", "collegeId": "nift-delhi", "name": "Master of Fashion Management", "degree": "MFM", "level": "PG", "stream": "Management", "specialisation": "Fashion Management", "durationYears": 2, "semesters": 4, "totalFee": 680000, "mode": "Full-time", "intake": "July", "seats": 45, "eligibility": "Bachelor's degree in any discipline", "entrance": "NIFT Entrance", "rating": 4.3, "reviews": 160, "avgPackage": "8.1 LPA", "skills": ["Retail", "Merchandising", "Brand Management", "Supply Chain"], "summary": "Management programme for the fashion and lifestyle retail industry."},
-    {"id": "amity-btech-cse", "collegeId": "amity-noida", "name": "B.Tech Computer Science and Engineering", "degree": "B.Tech", "level": "UG", "stream": "Engineering", "specialisation": "Computer Science", "durationYears": 4, "semesters": 8, "totalFee": 1280000, "mode": "Full-time", "intake": "July", "seats": 900, "eligibility": "10+2 with PCM, 60% aggregate", "entrance": "Amity JEE / JEE Main", "rating": 3.9, "reviews": 1710, "avgPackage": "6.0 LPA", "skills": ["Programming", "Databases", "Web", "Cloud"], "summary": "Large CSE cohort with optional specialisations in AI, cyber security and data science."},
-    {"id": "amity-ballb", "collegeId": "amity-noida", "name": "BA LLB (Honours)", "degree": "BA LLB", "level": "UG", "stream": "Law", "specialisation": "Law", "durationYears": 5, "semesters": 10, "totalFee": 1050000, "mode": "Full-time", "intake": "July", "seats": 300, "eligibility": "10+2 any stream, 60% aggregate", "entrance": "LSAT India / Amity test", "rating": 3.8, "reviews": 540, "avgPackage": "4.5 LPA", "skills": ["Legal Research", "Drafting", "Moot Court", "Corporate Law"], "summary": "Five-year integrated law degree with moot court and internship credits."},
-    {"id": "amity-bjmc", "collegeId": "amity-noida", "name": "BA Journalism and Mass Communication", "degree": "BA (JMC)", "level": "UG", "stream": "Media", "specialisation": "Journalism", "durationYears": 3, "semesters": 6, "totalFee": 540000, "mode": "Full-time", "intake": "July", "seats": 240, "eligibility": "10+2 any stream, 55% aggregate", "entrance": "Amity test", "rating": 3.9, "reviews": 380, "avgPackage": "3.8 LPA", "skills": ["Reporting", "Video Production", "Digital Media", "Editing"], "summary": "Media degree with in-house studio and newsroom facilities."},
-    {"id": "srm-btech-cse-ai", "collegeId": "srm-ktr", "name": "B.Tech CSE (Artificial Intelligence and ML)", "degree": "B.Tech", "level": "UG", "stream": "Engineering", "specialisation": "Artificial Intelligence", "durationYears": 4, "semesters": 8, "totalFee": 1100000, "mode": "Full-time", "intake": "July", "seats": 480, "eligibility": "10+2 with PCM, 50% aggregate", "entrance": "SRMJEEE", "rating": 4.0, "reviews": 890, "avgPackage": "7.2 LPA", "skills": ["Python", "Machine Learning", "Deep Learning", "Data Engineering"], "summary": "CSE degree with an AI and ML specialisation from the third semester."},
-    {"id": "srm-bds", "collegeId": "srm-ktr", "name": "BDS", "degree": "BDS", "level": "UG", "stream": "Medicine", "specialisation": "Dentistry", "durationYears": 5, "semesters": 10, "totalFee": 2600000, "mode": "Full-time", "intake": "September", "seats": 100, "eligibility": "10+2 with PCB, NEET qualified", "entrance": "NEET-UG", "rating": 4.0, "reviews": 210, "avgPackage": "-", "skills": ["Oral Surgery", "Prosthodontics", "Clinical Practice", "Radiology"], "summary": "Four years of study plus a one-year compulsory rotating internship."},
-    {"id": "nlsiu-ballb", "collegeId": "nlsiu-blr", "name": "BA LLB (Honours)", "degree": "BA LLB", "level": "UG", "stream": "Law", "specialisation": "Law", "durationYears": 5, "semesters": 15, "totalFee": 1860000, "mode": "Full-time", "intake": "July", "seats": 300, "eligibility": "10+2 any stream, 45% aggregate", "entrance": "CLAT", "rating": 4.8, "reviews": 620, "avgPackage": "16 LPA", "skills": ["Constitutional Law", "Legal Writing", "Moot Court", "Corporate Law"], "summary": "Trimester-based five-year law degree; the most sought-after CLAT seat in the country."},
-    {"id": "nlsiu-llm", "collegeId": "nlsiu-blr", "name": "LLM", "degree": "LLM", "level": "PG", "stream": "Law", "specialisation": "Business Law", "durationYears": 1, "semesters": 3, "totalFee": 420000, "mode": "Full-time", "intake": "July", "seats": 120, "eligibility": "LLB with 50% aggregate", "entrance": "CLAT-PG", "rating": 4.5, "reviews": 140, "avgPackage": "9 LPA", "skills": ["Corporate Law", "Human Rights", "Research", "Arbitration"], "summary": "One-year master's with business-law and human-rights streams."},
-    {"id": "kmc-mbbs", "collegeId": "kmc-manipal", "name": "MBBS", "degree": "MBBS", "level": "UG", "stream": "Medicine", "specialisation": "Medicine", "durationYears": 5.5, "semesters": 9, "totalFee": 8200000, "mode": "Full-time", "intake": "August", "seats": 250, "eligibility": "10+2 with PCB, NEET qualified", "entrance": "NEET-UG", "rating": 4.7, "reviews": 530, "avgPackage": "-", "skills": ["Anatomy", "Clinical Medicine", "Surgery", "Community Health"], "summary": "Four and a half years of study plus a one-year rotating internship at Kasturba Hospital."},
-    {"id": "kmc-md-gen", "collegeId": "kmc-manipal", "name": "MD General Medicine", "degree": "MD", "level": "PG", "stream": "Medicine", "specialisation": "General Medicine", "durationYears": 3, "semesters": 6, "totalFee": 5400000, "mode": "Full-time", "intake": "May", "seats": 24, "eligibility": "MBBS with NEET-PG rank", "entrance": "NEET-PG", "rating": 4.6, "reviews": 90, "avgPackage": "-", "skills": ["Internal Medicine", "Diagnostics", "Critical Care", "Research"], "summary": "Three-year residency with a dissertation and rotations across super-specialities."}
-  ]
+ "_note": "11 courses scraped from coursecorrect.fyi subject pages on 2026-10-01 for the preview. Ratings, duration, price flags and skills are as shown there; summaries are their AI-generated text, shortened.",
+ "courses": [
+  {
+   "id": "foundations-data-data-everywhere",
+   "title": "Foundations: Data, Data, Everywhere",
+   "provider": "Coursera",
+   "institution": "Google",
+   "type": "Course",
+   "level": "Beginner",
+   "selfPaced": true,
+   "free": true,
+   "certificate": true,
+   "language": "English",
+   "durationLabel": "13 hours",
+   "durationHours": 13,
+   "rating": 4.8,
+   "numRatings": 121602,
+   "summary": "This course introduces fundamental concepts of data analytics, including data ecosystems, the data life cycle, and the data analysis process. Learners will develop analytical thinking skills and learn to use tools such as spreadsheets, SQL, and data visualization software. It is designed for beginners with no prior experience, preparing them for entry-level data analyst roles.",
+   "skills": [
+    "Data Processing",
+    "Business Analytics",
+    "Data Collection",
+    "Data Analysis",
+    "SQL",
+    "Spreadsheet Software",
+    "Tableau Software",
+    "Data Cleansing",
+    "Data Visualization Software",
+    "Analytics",
+    "Data Sharing",
+    "Data Visualization"
+   ],
+   "careers": [
+    {
+     "title": "Data Analyst",
+     "salary": "$64,000–$91,000/yr"
+    },
+    {
+     "title": "Business Analyst",
+     "salary": "$70,000–$100,000/yr"
+    },
+    {
+     "title": "Junior Data Analyst",
+     "salary": "$55,000–$75,000/yr"
+    },
+    {
+     "title": "Associate Data Analyst",
+     "salary": "$60,000–$80,000/yr"
+    }
+   ],
+   "url": "https://www.coursera.org/learn/foundations-data",
+   "subject": "data analytics",
+   "source": "https://coursecorrect.fyi/learn/foundations-data-data-everywhere/c1c5f2ad-871b-49ef-9b0d-17b689fd8914"
+  },
+  {
+   "id": "machine-learning-specialization",
+   "title": "Machine Learning Specialization",
+   "provider": "Coursera",
+   "institution": "Stanford University, DeepLearning.AI",
+   "type": "Program",
+   "level": "Beginner",
+   "selfPaced": true,
+   "free": true,
+   "certificate": true,
+   "language": "English",
+   "durationLabel": "~3 years",
+   "durationHours": 1560,
+   "rating": 4.9,
+   "numRatings": 38304,
+   "summary": "This beginner-friendly specialization, developed by Stanford University and DeepLearning.AI, teaches fundamental machine learning concepts and practical skills. Learners will build ML models using Python libraries like NumPy and scikit-learn, train neural networks with TensorFlow for multi-class classification, and apply best practices for ML development. The program covers supervised and unsupervised learning, decision trees, recommender systems, and deep reinforcement learning.",
+   "skills": [
+    "Applied Machine Learning",
+    "Artificial Intelligence",
+    "Data Ethics",
+    "Data Preprocessing",
+    "Decision Tree Learning",
+    "Deep Learning",
+    "Feature Engineering",
+    "Machine Learning",
+    "Model Evaluation",
+    "Predictive Modeling",
+    "Random Forest Algorithm",
+    "Reinforcement Learning"
+   ],
+   "careers": [
+    {
+     "title": "Machine Learning Engineer",
+     "salary": "$100K–$170K/yr"
+    },
+    {
+     "title": "Data Scientist",
+     "salary": "$95K–$160K/yr"
+    },
+    {
+     "title": "AI Researcher",
+     "salary": "$110K–$180K/yr"
+    },
+    {
+     "title": "Data Analyst",
+     "salary": "$60K–$100K/yr"
+    }
+   ],
+   "url": "https://www.coursera.org/specializations/machine-learning-introduction",
+   "subject": "machine learning",
+   "source": "https://coursecorrect.fyi/learn/machine-learning-specialization/9a79380e-cb5e-424d-8157-230922cf6f9c"
+  },
+  {
+   "id": "introduction-to-data-analytics",
+   "title": "Introduction to Data Analytics",
+   "provider": "Coursera",
+   "institution": "IBM",
+   "type": "Course",
+   "level": "Beginner",
+   "selfPaced": true,
+   "free": true,
+   "certificate": true,
+   "language": "English",
+   "durationLabel": "10 hours",
+   "durationHours": 10,
+   "rating": 4.8,
+   "numRatings": 20468,
+   "summary": "This course provides a gentle introduction to Data Analysis, outlining the role of a Data Analyst and the tools used in the profession. Learners will understand the skills and responsibilities of a data analyst, differentiate between various data roles, and familiarize themselves with the data ecosystem. It covers the fundamentals of the data analysis process, including gathering, cleaning, analyzing, and visualizing data.",
+   "skills": [
+    "Data Storytelling",
+    "Data Warehousing",
+    "Big Data",
+    "Data Wrangling",
+    "Analytics",
+    "Data Analysis",
+    "Statistical Analysis",
+    "Data Presentation",
+    "Data Cleansing",
+    "Data Science",
+    "Data Mart",
+    "Data Visualization"
+   ],
+   "careers": [
+    {
+     "title": "Data Analyst",
+     "salary": "$60K–$90K/yr"
+    },
+    {
+     "title": "Business Analyst",
+     "salary": "$70K–$110K/yr"
+    },
+    {
+     "title": "Data Scientist",
+     "salary": "$100K–$140K/yr"
+    },
+    {
+     "title": "Business Intelligence Analyst",
+     "salary": "$80K–$120K/yr"
+    }
+   ],
+   "url": "https://www.coursera.org/learn/introduction-to-data-analytics",
+   "subject": "data analytics",
+   "source": "https://coursecorrect.fyi/learn/introduction-to-data-analytics/584cc559-8a7d-41f2-b5d6-5a47ff04c9f3"
+  },
+  {
+   "id": "mitx-machine-learning-with-python-from-linear-models-to-deep",
+   "title": "MITx: Machine Learning with Python: from Linear Models to Deep Learning.",
+   "provider": "edX",
+   "institution": "Massachusetts Institute of Technology",
+   "type": "Course",
+   "level": "All Levels",
+   "selfPaced": false,
+   "free": true,
+   "certificate": true,
+   "language": "English",
+   "durationLabel": "~5 years",
+   "durationHours": 2600,
+   "rating": 4.2,
+   "numRatings": 287,
+   "summary": "This course provides an in-depth introduction to machine learning, covering topics from linear models to deep learning and reinforcement learning. Learners will gain practical experience through hands-on Python projects. It is suitable for individuals looking to understand and implement machine learning algorithms for prediction and control.",
+   "skills": [
+    "Algorithms",
+    "Artificial Neural Networks",
+    "Consumer Behaviour",
+    "Data Science",
+    "Deep Learning",
+    "Experimentation",
+    "Forecasting",
+    "Linear Model",
+    "Machine Learning",
+    "Machine Learning Algorithms",
+    "Physics",
+    "Prediction"
+   ],
+   "careers": [
+    {
+     "title": "Data Scientist",
+     "salary": "$70K–$170K/yr"
+    },
+    {
+     "title": "Machine Learning Engineer",
+     "salary": "$90K–$180K/yr"
+    },
+    {
+     "title": "AI Specialist",
+     "salary": "$90K–$180K/yr"
+    },
+    {
+     "title": "Data Analyst",
+     "salary": "$60K–$120K/yr"
+    }
+   ],
+   "url": "https://www.edx.org/learn/machine-learning/massachusetts-institute-of-technology-machine-learning-with-python-from-linear-models-to-deep-learning",
+   "subject": "machine learning",
+   "source": "https://coursecorrect.fyi/learn/mitx-machine-learning-with-python-from-linear-models-to-deep-learning/6fe22eba-9110-47f4-886b-ef866e8492df"
+  },
+  {
+   "id": "boxplay-data-analytics-a-fast-track-guide-to-becoming-data-l",
+   "title": "BoxPlay: Data Analytics: A Fast-Track Guide to Becoming Data-Led",
+   "provider": "edX",
+   "institution": "BoxPlay",
+   "type": "Course",
+   "level": "Beginner",
+   "selfPaced": true,
+   "free": true,
+   "certificate": true,
+   "language": "English",
+   "durationLabel": "~17 weeks",
+   "durationHours": 170,
+   "rating": null,
+   "numRatings": null,
+   "summary": "This course provides essential data literacy skills, enabling learners to understand the challenges and opportunities of data analytics ecosystems. It covers different types of data analytics, their principles, benefits, and how to apply them to drive data-led decision-making and optimize business processes. The course is designed for individuals looking to gain a competitive edge through data analysis.",
+   "skills": [
+    "Data Literacy",
+    "Data Analytics",
+    "Decision Making",
+    "Business Intelligence",
+    "Data Strategy",
+    "SQL",
+    "Python",
+    "Tableau",
+    "Excel",
+    "Statistics",
+    "Data Visualization"
+   ],
+   "careers": [
+    {
+     "title": "Data Analyst",
+     "salary": "$60K–$90K/yr"
+    },
+    {
+     "title": "Business Intelligence Analyst",
+     "salary": "$70K–$100K/yr"
+    },
+    {
+     "title": "Data Scientist",
+     "salary": "$90K–$150K/yr"
+    },
+    {
+     "title": "Data Strategist",
+     "salary": "$100K–$160K/yr"
+    }
+   ],
+   "url": "https://www.edx.org/learn/data-analysis/boxplay-data-analytics-a-fast-track-guide-to-becoming-data-led",
+   "subject": "data analytics",
+   "source": "https://coursecorrect.fyi/learn/boxplay-data-analytics-a-fast-track-guide-to-becoming-data-led/e31677ab-7a84-4a76-a9cd-0f8342a313ff"
+  },
+  {
+   "id": "understanding-machine-learning-course",
+   "title": "Understanding Machine Learning Course",
+   "provider": "DataCamp",
+   "institution": "",
+   "type": "Course",
+   "level": "Beginner",
+   "selfPaced": true,
+   "free": true,
+   "certificate": true,
+   "language": "English",
+   "durationLabel": "2 hours",
+   "durationHours": 2,
+   "rating": 4.8,
+   "numRatings": 7702,
+   "summary": "This course provides a non-technical introduction to machine learning, covering essential concepts, vocabulary, and the machine learning workflow. Learners will understand the relationship between ML, AI, and data science, explore different model types, and learn evaluation techniques, including deep learning applications and ethical considerations.",
+   "skills": [
+    "Machine Learning",
+    "Artificial Intelligence",
+    "Data Science",
+    "Supervised Learning",
+    "Unsupervised Learning",
+    "Deep Learning",
+    "Feature Engineering",
+    "Model Training",
+    "Model Testing",
+    "Model Tuning",
+    "Model Evaluation",
+    "Computer Vision"
+   ],
+   "careers": [
+    {
+     "title": "Data Analyst",
+     "salary": "$60K–$100K/yr"
+    },
+    {
+     "title": "Business Intelligence Developer",
+     "salary": "$80K–$140K/yr"
+    },
+    {
+     "title": "Machine Learning Engineer",
+     "salary": "$120K–$200K/yr"
+    },
+    {
+     "title": "Data Scientist",
+     "salary": "$110K–$170K/yr"
+    }
+   ],
+   "url": "https://www.datacamp.com/courses/understanding-machine-learning",
+   "subject": "machine learning",
+   "source": "https://coursecorrect.fyi/learn/understanding-machine-learning-course/f02de01b-1e91-4fe7-a251-53d592d310e8"
+  },
+  {
+   "id": "understanding-machine-learning",
+   "title": "Understanding Machine Learning",
+   "provider": "Pluralsight",
+   "institution": "",
+   "type": "Course",
+   "level": "Beginner",
+   "selfPaced": true,
+   "free": true,
+   "certificate": false,
+   "language": "English",
+   "durationLabel": "42 min",
+   "durationHours": 0.7,
+   "rating": 4.6,
+   "numRatings": 2290,
+   "summary": "This course offers a concise introduction to machine learning, covering its fundamental concepts. Learners will explore the open-source programming language R and gain an understanding of how to train, test, and utilize machine learning models.",
+   "skills": [
+    "Machine Learning",
+    "R (Programming Language)",
+    "Model Training",
+    "Model Testing",
+    "Data Pre-processing",
+    "Machine Learning Algorithms"
+   ],
+   "careers": [
+    {
+     "title": "Machine Learning Engineer",
+     "salary": "$110K–$170K/yr"
+    },
+    {
+     "title": "Data Scientist",
+     "salary": "$95K–$150K/yr"
+    },
+    {
+     "title": "AI Developer",
+     "salary": "$100K–$160K/yr"
+    }
+   ],
+   "url": "https://www.pluralsight.com/courses/understanding-machine-learning",
+   "subject": "machine learning",
+   "source": "https://coursecorrect.fyi/learn/understanding-machine-learning/07aeb39f-45d8-4749-b6b3-e55b1fe90b34"
+  },
+  {
+   "id": "introduction-to-web-development",
+   "title": "Introduction to Web Development",
+   "provider": "Pluralsight",
+   "institution": "",
+   "type": "Course",
+   "level": "Beginner",
+   "selfPaced": false,
+   "free": false,
+   "certificate": false,
+   "language": "English",
+   "durationLabel": "11 hours",
+   "durationHours": 11,
+   "rating": 3.9,
+   "numRatings": 713,
+   "summary": "This course provides a comprehensive introduction to web development, covering essential tools for creating websites. It includes in-depth discussions on HTML, CSS, and JavaScript, along with an introduction to GitHub and Node.js. The course is designed to equip learners with the skills necessary to become a professional web developer.",
+   "skills": [
+    "Web Development",
+    "HTML",
+    "CSS",
+    "JavaScript",
+    "GitHub",
+    "Node.js",
+    "jQuery",
+    "Command Line"
+   ],
+   "careers": [
+    {
+     "title": "Web Developer",
+     "salary": "$73K–$125K/yr"
+    },
+    {
+     "title": "Front-End Developer",
+     "salary": "$75K–$135K/yr"
+    },
+    {
+     "title": "Back-End Developer",
+     "salary": "$80K–$145K/yr"
+    }
+   ],
+   "url": "https://www.pluralsight.com/courses/web-development-intro",
+   "subject": "web development",
+   "source": "https://coursecorrect.fyi/learn/introduction-to-web-development/78be5efa-6c29-46d0-8bd3-19b4a41f709b"
+  },
+  {
+   "id": "web-development-executive-briefing",
+   "title": "Web Development: Executive Briefing",
+   "provider": "Pluralsight",
+   "institution": "Pluralsight",
+   "type": "Course",
+   "level": "Beginner",
+   "selfPaced": false,
+   "free": true,
+   "certificate": false,
+   "language": "English",
+   "durationLabel": "30 min",
+   "durationHours": 0.5,
+   "rating": 4.6,
+   "numRatings": 162,
+   "summary": "This course provides tech leaders with an overview of modern web development technologies and the skills needed for development teams. It covers structuring web development teams, client-side browser application technologies, and the role of server-side development and cloud services. Learners will gain a foundational understanding to better communicate with technical teams and comprehend project skill requirements.",
+   "skills": [
+    "Web Development",
+    "Client-side Development",
+    "Server-side Development",
+    "Cloud Services",
+    "Team Management",
+    "Web Application Architecture",
+    "HTML",
+    "CSS",
+    "JavaScript",
+    "JSON",
+    "AJAX",
+    "Web Frameworks"
+   ],
+   "careers": [
+    {
+     "title": "Technical Lead",
+     "salary": "$100K–$208K+/yr"
+    },
+    {
+     "title": "Engineering Manager",
+     "salary": "$100K–$208K+/yr"
+    },
+    {
+     "title": "Project Manager",
+     "salary": "$100K–$208K+/yr"
+    },
+    {
+     "title": "Web Development Manager",
+     "salary": "$100K–$208K+/yr"
+    }
+   ],
+   "url": "https://www.pluralsight.com/courses/web-development-executive-briefing",
+   "subject": "web development",
+   "source": "https://coursecorrect.fyi/learn/web-development-executive-briefing/cb69d614-2b21-48c1-be1c-5694a66da89f"
+  },
+  {
+   "id": "python-for-beginners-learn-python-programming-in-python-3",
+   "title": "Python for Beginners: Learn Python Programming (in Python 3)",
+   "provider": "Udemy",
+   "institution": "",
+   "type": "Course",
+   "level": "Beginner",
+   "selfPaced": true,
+   "free": false,
+   "certificate": true,
+   "language": "English",
+   "durationLabel": "11 hours",
+   "durationHours": 11,
+   "rating": null,
+   "numRatings": null,
+   "summary": "This Python for beginners course teaches you Python language quick. Go from hero to zero in Python. Training in Python 3",
+   "skills": [
+    "Machine Learning",
+    "Python Programming",
+    "Python 3",
+    "Data Structures",
+    "File Handling",
+    "Functions",
+    "Control Flow",
+    "PyCharm IDE"
+   ],
+   "careers": [
+    {
+     "title": "Junior Python Developer",
+     "salary": "$60,000-$90,000"
+    },
+    {
+     "title": "Data Analyst",
+     "salary": "$70,000-$100,000"
+    },
+    {
+     "title": "Python Web Developer",
+     "salary": "$75,000-$110,000"
+    }
+   ],
+   "url": "https://www.udemy.com/course/technobytes-python-for-beginners/",
+   "subject": "python",
+   "source": "https://coursecorrect.fyi/learn/python-for-beginners-learn-python-programming-in-python-3/4fa12ed7-f4a5-485b-8b96-d0e3c4505bf8"
+  },
+  {
+   "id": "python-for-beginners-learn-python-programming-python-3",
+   "title": "Python for Beginners: Learn Python Programming (Python 3)",
+   "provider": "Udemy",
+   "institution": "",
+   "type": "Course",
+   "level": "Beginner",
+   "selfPaced": true,
+   "free": false,
+   "certificate": true,
+   "language": "English",
+   "durationLabel": "3 hours",
+   "durationHours": 3,
+   "rating": null,
+   "numRatings": null,
+   "summary": "Learn Python Programming the Easy Way, Complete with Examples, Quizzes, Exercises and more. Learn Python 2 and Python 3.",
+   "skills": [
+    "Unix",
+    "Linux",
+    "Python Programming",
+    "Python 2",
+    "Python 3",
+    "Data Types",
+    "Functions",
+    "File Handling",
+    "Scripting"
+   ],
+   "careers": [
+    {
+     "title": "Python Developer",
+     "salary": "$60,000-$90,000"
+    },
+    {
+     "title": "Automation Engineer",
+     "salary": "$55,000-$80,000"
+    },
+    {
+     "title": "Web Developer",
+     "salary": "$65,000-$95,000"
+    }
+   ],
+   "url": "https://www.udemy.com/course/python-programming-projects/",
+   "subject": "python",
+   "source": "https://coursecorrect.fyi/learn/python-for-beginners-learn-python-programming-python-3/c22123a9-0a8f-4d3e-bb9f-78b8edd8d990"
+  }
+ ]
 }
